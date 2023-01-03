@@ -23,6 +23,7 @@ let current = 1;
 let row = 1;
 let fullWord = false;
 let firstLetter = true;
+let correctLettersInOrder = new Set();
 
 document.getElementById("letter11").classList.add("word-letter-current");
 
@@ -94,8 +95,10 @@ function enterHandler(e) {
             for(let i = 0; i < 5; i++) {
                 if(chosen[i] === word[i]) {
                     correctLetters.push(i);
-                    document.getElementById(`letter${row}${i + 1}`).style.backgroundColor = "#46b53c";
-                    document.getElementById(`letter${row}${i + 1}`).style.borderColor = "#46b53c";
+                    correctLettersInOrder.add(word[i]);
+                    document.getElementById(`key-${word[i]}`).classList.remove("keyboard-button-wrong-order");
+                    document.getElementById(`key-${word[i]}`).classList.add("keyboard-button-correct");
+                    document.getElementById(`letter${row}${i + 1}`).classList.add("word-letter-correct");
                     chosenLettersCount[word[i]]--;
                 }
             }
@@ -105,13 +108,15 @@ function enterHandler(e) {
                     continue;
                 }
                 if(chosenLettersCount[word[i]]) {
-                    document.getElementById(`letter${row}${i + 1}`).style.backgroundColor = "#b59f3b";
-                    document.getElementById(`letter${row}${i + 1}`).style.borderColor = "#b59f3b";
+                    if(!correctLettersInOrder.has(word[i])) {
+                        document.getElementById(`key-${word[i]}`).classList.add("keyboard-button-wrong-order");
+                    }
+                    document.getElementById(`letter${row}${i + 1}`).classList.add("word-letter-wrong-order");
                     chosenLettersCount[word[i]]--;
                 }
                 else {
-                    document.getElementById(`letter${row}${i + 1}`).style.backgroundColor = "#333";
-                    document.getElementById(`letter${row}${i + 1}`).style.borderColor = "#333";
+                    document.getElementById(`key-${word[i]}`).classList.add("keyboard-button-not-in-word");
+                    document.getElementById(`letter${row}${i + 1}`).classList.add("word-letter-not-in-word");
                 }
             }
 
