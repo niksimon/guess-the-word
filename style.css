@@ -25,14 +25,9 @@ h1 {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     grid-gap: 5px;
-    padding: 10px;
+    
     box-sizing: border-box;
 }
-/* .word-row {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-gap: 5px;
-} */
 .word-letter {
     display: flex;
     aspect-ratio: 1;
@@ -40,10 +35,13 @@ h1 {
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
-    border: 2px solid #888;
+    border: 2px solid #777;
     font-size: 2rem;
     overflow: hidden;
     text-transform: uppercase;
+}
+.word-letter-current {
+    border-color: #fff;
 }
 .keyboard {
     display: grid;
@@ -64,10 +62,7 @@ h1 {
 .keyboard-row:nth-child(3) {
     grid-template-columns: 2fr repeat(7, 1fr) 2fr;
 }
-.keyboard-row:nth-child(3) > .keyboard-button:last-child {
-    font-size: 1.8rem;
-}
-.keyboard-button {
+.keyboard-button, .keyboard-button-enter, .keyboard-button-delete {
     display: flex;
     font-family: 'Roboto', sans-serif;
     justify-content: center;
@@ -78,5 +73,32 @@ h1 {
     border-radius: 5px;
     color: #fff;
     font-size: 1rem;
+    text-transform: uppercase;
     cursor: pointer;
+}
+.keyboard-button-delete {
+    font-size: 1.8rem;
+}
+.modal-invalid-word, .modal-finished {
+    opacity: 0;
+    background-color: #fff;
+    position: fixed;
+    color: #000;
+    padding: 15px 25px;
+    border-radius: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-weight: bold;
+    transition: opacity 500ms;
+    user-select: none;
+    text-align: center;
+}
+
+.modal-finished p {
+    padding: 5px 0;
+    margin: 0;
+}
+
+.modal-finished span {
+    color:#128008;
 }
