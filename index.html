@@ -12,36 +12,7 @@
     <div class="main">
         <h1>Guess the Word</h1>
         <div class="word-grid" id="word-grid">
-            <div class="word-letter" data-value="" id="letter1"></div>
-            <div class="word-letter" data-value="" id="letter2"></div>
-            <div class="word-letter" data-value="" id="letter3"></div>
-            <div class="word-letter" data-value="" id="letter4"></div>
-            <div class="word-letter" data-value="" id="letter5"></div>
-            <div class="word-letter"></div>
-            <div class="word-letter"></div>
-            <div class="word-letter"></div>
-            <div class="word-letter"></div>
-            <div class="word-letter"></div>
-            <div class="word-letter"></div>
-            <div class="word-letter"></div>
-            <div class="word-letter"></div>
-            <div class="word-letter"></div>
-            <div class="word-letter"></div>
-            <div class="word-letter"></div>
-            <div class="word-letter"></div>
-            <div class="word-letter"></div>
-            <div class="word-letter"></div>
-            <div class="word-letter"></div>
-            <div class="word-letter"></div>
-            <div class="word-letter"></div>
-            <div class="word-letter"></div>
-            <div class="word-letter"></div>
-            <div class="word-letter"></div>
-            <div class="word-letter"></div>
-            <div class="word-letter"></div>
-            <div class="word-letter"></div>
-            <div class="word-letter"></div>
-            <div class="word-letter"></div>
+            
         </div>
         <div class="keyboard">
             <div class="keyboard-row">
@@ -68,7 +39,7 @@
                 <button class="keyboard-button" data-key="l">L</button>
             </div>
             <div class="keyboard-row">
-                <button class="keyboard-button" data-key="enter">Enter</button>
+                <button class="keyboard-button-enter" id="keyboard-button-enter" data-key="enter">Enter</button>
                 <button class="keyboard-button" data-key="z">Z</button>
                 <button class="keyboard-button" data-key="x">X</button>
                 <button class="keyboard-button" data-key="c">C</button>
@@ -76,9 +47,12 @@
                 <button class="keyboard-button" data-key="b">B</button>
                 <button class="keyboard-button" data-key="n">N</button>
                 <button class="keyboard-button" data-key="m">M</button>
-                <button class="keyboard-button" data-key="del"><i class="fa-solid fa-delete-left"></i></button>
+                <button class="keyboard-button-delete" id="keyboard-button-delete" data-key="del"><i class="fa-solid fa-delete-left"></i></button>
             </div>
         </div>
     </div>
+    <div class="modal-invalid-word" id="modal-invalid-word">NOT IN WORD LIST</div>
+    <div class="modal-finished" id="modal-finished"></div>
+    <script type="module" src="main.js"></script>
 </body>
 </html>
