@@ -73,6 +73,7 @@ function enterHandler(e) {
         for(let i = 1; i <= 5; i++) {
             word += document.getElementById(`letter${row}${i}`).innerHTML;
         }
+        // check if word is valid
         if(!words.has(word)) {
             console.log(word);
             document.getElementById("modal-invalid-word").style.opacity = 1;
@@ -85,17 +86,25 @@ function enterHandler(e) {
             if(word === chosen) {
                 correct = true;
             }
-
             let chosenLettersCount = {};
             chosen.split("").forEach(c => chosenLettersCount[c] = chosenLettersCount[c] ? chosenLettersCount[c] + 1 : 1);
             console.log(chosenLettersCount);
+            let correctLetters = [];
+            // get correctly positioned letters first
             for(let i = 0; i < 5; i++) {
                 if(chosen[i] === word[i]) {
+                    correctLetters.push(i);
                     document.getElementById(`letter${row}${i + 1}`).style.backgroundColor = "#46b53c";
                     document.getElementById(`letter${row}${i + 1}`).style.borderColor = "#46b53c";
                     chosenLettersCount[word[i]]--;
                 }
-                else if(chosenLettersCount[word[i]]) {
+            }
+            // then others with wrong positions and those not included
+            for(let i = 0; i < 5; i++) {
+                if(correctLetters.includes(i)) {
+                    continue;
+                }
+                if(chosenLettersCount[word[i]]) {
                     document.getElementById(`letter${row}${i + 1}`).style.backgroundColor = "#b59f3b";
                     document.getElementById(`letter${row}${i + 1}`).style.borderColor = "#b59f3b";
                     chosenLettersCount[word[i]]--;
@@ -106,6 +115,7 @@ function enterHandler(e) {
                 }
             }
 
+            // found correct word or at last row
             if(correct || row === 6) {
                 document.querySelectorAll(".keyboard-button").forEach(btn => {
                     btn.removeEventListener("click", btnKeyHandler);
