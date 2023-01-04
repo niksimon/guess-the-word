@@ -16,7 +16,6 @@ fetch("words.json")
     const rnd = Math.floor(Math.random() * json.length);
     chosen = json[rnd];
     words = new Set(json);
-    console.log(chosen);
 });
 
 let current = 1;
@@ -26,12 +25,6 @@ let firstLetter = true;
 let correctLettersInOrder = new Set();
 
 document.getElementById("letter11").classList.add("word-letter-current");
-
-document.querySelectorAll(".keyboard-button").forEach(btn => {
-    btn.addEventListener("click", btnKeyHandler);
-});
-document.getElementById("keyboard-button-delete").addEventListener("click", deleteHandler);
-document.getElementById("keyboard-button-enter").addEventListener("click", enterHandler);
 
 function btnKeyHandler(e) {
     if(!fullWord) {
@@ -76,10 +69,14 @@ function enterHandler(e) {
         }
         // check if word is valid
         if(!words.has(word)) {
-            console.log(word);
+            //console.log(word);
+            document.getElementById("modal-invalid-word").style.visibility = "visible";
             document.getElementById("modal-invalid-word").style.opacity = 1;
             setTimeout(() => {
                 document.getElementById("modal-invalid-word").style.opacity = 0;
+                setTimeout(() => {
+                    document.getElementById("modal-invalid-word").style.visibility = "hidden";
+                }, 500);
             }, 1000);
         }
         else {
@@ -89,7 +86,6 @@ function enterHandler(e) {
             }
             let chosenLettersCount = {};
             chosen.split("").forEach(c => chosenLettersCount[c] = chosenLettersCount[c] ? chosenLettersCount[c] + 1 : 1);
-            console.log(chosenLettersCount);
             let correctLetters = [];
             // get correctly positioned letters first
             for(let i = 0; i < 5; i++) {
@@ -127,13 +123,17 @@ function enterHandler(e) {
                 });
                 document.getElementById("keyboard-button-enter").removeEventListener("click", enterHandler);
                 document.getElementById("keyboard-button-delete").removeEventListener("click", deleteHandler);
+                // win
                 if(correct) {
-                    document.getElementById("modal-finished").innerHTML = "CORRECT!";
+                    document.getElementById("modal-text").innerHTML = "YOU WIN!";
+                    confetti();
                 }
+                // lose
                 else {
-                    document.getElementById("modal-finished").innerHTML = `<p>WRONG!</p><p>Correct word is <span>${chosen}</span></p>`;
+                    document.getElementById("modal-text").innerHTML = `<p style='font-size:2.5rem'>WRONG!</p><p style='font-size:1.5rem'>Correct word is <span>${chosen}</span></p>`;
                 }
-                document.getElementById("modal-finished").style.opacity = 1;
+                document.getElementById("modal-finished").style.display = "flex";
+                setTimeout(() => {document.getElementById("modal-finished").style.opacity = 1;}, 50);
                 return;
             }
 
@@ -145,3 +145,43 @@ function enterHandler(e) {
         }
     }
 }
+
+function resizeHandler() {
+    document.getElementById("word-grid").style.maxWidth = `${Math.min(400, 400 - (750 - window.innerHeight))}px`;
+}
+
+function confetti() {
+    const modal = document.getElementById("modal-finished");
+    const confContainer = document.createElement("div");
+    confContainer.setAttribute("id", "confetti");
+    confContainer.setAttribute("class", "confetti");
+    modal.appendChild(confContainer);
+    for(let i = 0; i < 50; i++) {
+        const conf = document.createElement("div");
+        conf.setAttribute("class", "confetti-item");
+        const backgroundColors = ['#26ccff','#a25afd','#ff5e7e','#88ff5a','#fcff42','#ffa62d','#ff36ff'];
+        conf.style.backgroundColor = backgroundColors[Math.floor(Math.random() * backgroundColors.length)];
+        conf.style.animationName = `drop${Math.floor(Math.random() * 3) + 1}`;
+        conf.style.animationDuration = `${Math.floor(Math.random() * 2500) + 1500}ms`;
+        conf.style.left = `${Math.floor(Math.random() * window.innerWidth)}px`;
+        conf.style.top = `-${Math.floor(Math.random() * window.innerHeight) + 20}px`;
+        confContainer.appendChild(conf);
+    }
+}
+
+document.querySelectorAll(".keyboard-button").forEach(btn => {
+    btn.addEventListener("click", btnKeyHandler);
+});
+document.getElementById("keyboard-button-delete").addEventListener("click", deleteHandler);
+document.getElementById("keyboard-button-enter").addEventListener("click", enterHandler);
+
+document.getElementById("close-modal").addEventListener("click", () => {
+    document.getElementById("modal-finished").style.opacity = 0;
+    setTimeout(() => {
+        document.getElementById("modal-finished").style.display = "none";
+    }, 500);
+});
+
+window.addEventListener("resize", resizeHandler);
+
+resizeHandler();
