@@ -15,7 +15,6 @@ fetch("words.json")
     const rnd = Math.floor(Math.random() * json.length);
     chosen = json[rnd];
     words = new Set(json);
-    console.log(chosen);
 });
 
 let current = 1;
