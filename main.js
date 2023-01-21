@@ -89,7 +89,8 @@ function enterHandler() {
         for(let i = 1; i <= 5; i++) {
             word += document.getElementById(`letter${row}${i}`).innerHTML;
         }
-        // check if word is valid
+
+        // word is NOT in list
         if(!words.has(word)) {
             //console.log(word);
             document.getElementById(`row${row}`).classList.remove("word-incorrect-animation");
@@ -107,16 +108,14 @@ function enterHandler() {
                 }, 1000);
             }
         }
+        // word is IN list
         else {
-            let correct = false;
-            if(word === chosen) {
-                correct = true;
-            }
             let chosenLettersCount = {};
             chosen.split("").forEach(c => chosenLettersCount[c] = chosenLettersCount[c] ? chosenLettersCount[c] + 1 : 1);
             let lettersFinalStates = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0};
             let correctLetters = [];
-            // get correctly positioned letters first
+
+            // // get correctly positioned letters first
             for(let i = 0; i < 5; i++) {
                 if(chosen[i] === word[i]) {
                     correctLetters.push(i);
@@ -127,6 +126,7 @@ function enterHandler() {
                     chosenLettersCount[word[i]]--;
                 }
             }
+
             // then others with wrong positions and those not included
             for(let i = 0; i < 5; i++) {
                 if(correctLetters.includes(i)) {
@@ -153,14 +153,14 @@ function enterHandler() {
             }
 
             // found correct word or at last row
-            if(correct || row === 6) {
+            if(word === chosen || row === 6) {
                 document.getElementById("keyboard").removeEventListener("click", btnKeyHandler);
                 document.getElementById("keyboard-button-enter").removeEventListener("click", enterHandler);
                 document.getElementById("keyboard-button-delete").removeEventListener("click", deleteHandler);
                 document.removeEventListener("keydown", keyDownHandler);
                 setTimeout(() => {
                     // win
-                    if(correct) {
+                    if(word === chosen) {
                         document.getElementById("modal-text").innerHTML = `<span class="win-letter">Y</span><span class="win-letter">O</span><span class="win-letter">U</span><span class="win-letter"> W</span><span class="win-letter">I</span><span class="win-letter">N</span><span class="win-letter">!</span>`;
                         confetti();
                     }
